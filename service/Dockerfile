@@ -5,6 +5,9 @@ COPY .mvn ./.mvn
 COPY mvnw mvnw.cmd ./
 COPY pom.xml .
 COPY src ./src
+USER root
+RUN chmod +x mvnw
+USER circleci
 RUN ./mvnw clean package -DskipTests
 
 # TEST

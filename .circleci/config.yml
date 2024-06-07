@@ -3,51 +3,20 @@ version: 2.1
 executors:
   maven-executor:
     docker:
-      - image: cimg/openjdk:21.0.2
-    working_directory: ~/repo/service
+      - image: cimg/base:2024.05
 
 jobs:
-  build:
+  test_service:
     executor: maven-executor
+    working_directory: /service
     steps:
       - checkout
       - run:
-          name: Set up Maven
-          command: |
-            echo "MAVEN_OPTS='-Xmx2048m'" > ~/.mavenrc
-      - restore_cache:
-          keys:
-            - maven-{{ checksum "service/pom.xml" }}
-            - maven
-      - run:
-          name: Build with Maven
-          command: cd service && mvn clean package -DskipTests
-      - save_cache:
-          paths:
-            - ~/.m2
-          key: maven-{{ checksum "service/pom.xml" }}
-      - persist_to_workspace:
-          root: .
-          paths:
-            - service/target/*.jar
-
-  test:
-    executor: maven-executor
-    steps:
-      - checkout
-      - run:
-          name: Run Tests
-          command: cd service && mvn test
-      - store_test_results:
-          path: service/target/surefire-reports
-      - store_artifacts:
-          path: service/target/surefire-reports
+          name: Test service
+          command: docker build --target test .
 
 workflows:
   version: 2
-  build_and_test:
+  test:
     jobs:
-      - build
-      - test:
-          requires:
-            - build
+      - test_service

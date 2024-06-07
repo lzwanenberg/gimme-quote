@@ -12,8 +12,8 @@ RUN ./mvnw clean package -DskipTests
 FROM build AS test
 RUN ./mvnw test
 
-# DEPLOY
-FROM cimg/openjdk:21.0.2 AS deploy
+# PRODUCTION
+FROM cimg/openjdk:21.0.2 AS production
 WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar
 EXPOSE 8080

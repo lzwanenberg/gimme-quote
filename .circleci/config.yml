@@ -10,7 +10,7 @@ jobs:
       - setup_remote_docker
       - run:
           name: Test backend
-          command: cd service && docker build --target=test .
+          command: cd backend && docker build --target=test .
 
 workflows:
   version: 2

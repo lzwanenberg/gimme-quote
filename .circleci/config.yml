@@ -14,7 +14,7 @@ jobs:
       - run:
           name: Set up Maven
           command: |
-            echo "MAVEN_OPTS='-Xmx2048m -XX:MaxPermSize=512m -XX:+CMSClassUnloadingEnabled -XX:+UseConcMarkSweepGC'" > ~/.mavenrc
+            echo "MAVEN_OPTS='-Xmx2048m'" > ~/.mavenrc
       - restore_cache:
           keys:
             - maven-{{ checksum "service/pom.xml" }}

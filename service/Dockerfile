@@ -2,9 +2,14 @@
 FROM cimg/openjdk:21.0.2 AS build
 WORKDIR /app
 COPY .mvn ./.mvn
-COPY --chmod=0755 mvnw mvnw.cmd ./
+COPY mvnw mvnw.cmd ./
 COPY pom.xml .
 COPY src ./src
+
+USER root
+RUN chmod +x mvnw
+USER circleci
+
 RUN ./mvnw clean package -DskipTests
 
 # TEST

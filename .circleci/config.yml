@@ -1,22 +1,18 @@
 version: 2.1
 
-executors:
-  maven-executor:
+jobs:
+  run_unit_tests_service:
+    description: Run unit tests (service)
     docker:
       - image: cimg/base:2024.05
-
-jobs:
-  test_service:
-    executor: maven-executor
-    working_directory: /service
     steps:
       - checkout
       - run:
           name: Test service
-          command: docker build --target test .
+          command: cd service && docker build --target=test .
 
 workflows:
   version: 2
   test:
     jobs:
-      - test_service
+      - run_unit_tests_service

@@ -1,6 +1,7 @@
 # Java-related
 *.class
 *.jar
+!**/maven-wrapper.jar
 *.war
 *.ear
 *.iml
@@ -14,7 +15,6 @@ target/
 out/
 
 # Package Files #
-*.jar
 *.war
 *.nar
 *.ear

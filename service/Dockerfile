@@ -5,9 +5,13 @@ COPY .mvn ./.mvn
 COPY mvnw mvnw.cmd ./
 COPY pom.xml .
 COPY src ./src
+
 USER root
 RUN chmod +x mvnw
+RUN chmod +x mvnw.cmd
+RUN chmod +x .mvn/wrapper/maven-wrapper.jar
 USER circleci
+
 RUN ./mvnw clean package -DskipTests
 
 # TEST

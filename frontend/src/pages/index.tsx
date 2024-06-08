@@ -1,30 +1,23 @@
-import loadEnvironmentVariables from '@/config';
+import AppContext from '@/components/app/AppContext';
+import QuotePage from '@/components/pages/QuotePage/QuotePage';
 import EnvironmentVariables from '@/config/EnvironmentVariables';
-import { GetStaticProps } from 'next';
+import loadEnvironmentVariables from '@/config/loadEnvironmentVariables';
 import React from 'react';
 
 type Props = {
     env: EnvironmentVariables;
 };
 
-const IndexPage: React.FC<Props> = ({ env }: Props) => {
+const IndexPage: React.FC<Props> = ({ env }) => {
+
     return (
-        <div>
-            <h1>Gimme Quote</h1>
-            <p>TODO: a quote should appear here</p>
-            <div>
-                {env.QUOTE_SERVICE_HOST}, {env.QUOTE_SERVICE_PORT}
-            </div>
-        </div>
+        <AppContext env={env}>
+            <QuotePage />
+        </AppContext>
     );
 };
 
-export const getStaticProps: GetStaticProps<Props> = async () => {
-    return {
-        props: {
-            env: loadEnvironmentVariables()
-        }
-    }
-};
+export const getStaticProps = async () =>
+    ({ props: { env: loadEnvironmentVariables() } });
 
 export default IndexPage;

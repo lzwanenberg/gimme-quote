@@ -22,7 +22,7 @@ describe("validateEnvironmentVariables", () => {
             const result = validateEnvironmentVariables(variables);
 
             if (!result.success) fail('expected success');
-            expect(result.result).toEqual(variables);
+            expect(result.data).toEqual(variables);
         });
     });
 
@@ -64,7 +64,7 @@ describe("validateEnvironmentVariables", () => {
             expect(result.error).toMatchInlineSnapshot(`"{"_errors":[],"QUOTE_SERVICE_PORT":{"_errors":["Required"]}}"`);
         });
 
-        test("fails when not a string", () => {
+        test("fails when not a number", () => {
             const variables: any = { ...validEnvironmentVariables, QUOTE_SERVICE_PORT: "not-a-number" };
 
             const result = validateEnvironmentVariables(variables);
@@ -73,6 +73,17 @@ describe("validateEnvironmentVariables", () => {
             if (result.success) fail();
 
             expect(result.error).toMatchInlineSnapshot(`"{"_errors":[],"QUOTE_SERVICE_PORT":{"_errors":["Expected number, received string"]}}"`);
+        });
+
+        test('succeeds when string representing number', () => {
+            const variables: any = { ...validEnvironmentVariables, QUOTE_SERVICE_PORT: "8080" };
+
+            const result = validateEnvironmentVariables(variables);
+
+            expect(result.success).toBe(true);
+            if (!result.success) fail();
+
+            expect(result.data.QUOTE_SERVICE_PORT).toEqual(8080);
         });
 
         test("fails when not a positive number", () => {

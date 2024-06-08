@@ -3,7 +3,7 @@ import EnvironmentVariables from "./EnvironmentVariables";
 
 type ValidationSuccess = {
     success: true;
-    result: EnvironmentVariables;
+    data: EnvironmentVariables;
 }
 
 type ValidationFailed = {
@@ -17,7 +17,7 @@ const validateEnvironmentVariables = (env: any): ValidationResult => {
     const config = EnvironmentVariablesSchema.safeParse(env);
 
     return config.success ?
-        { success: true, result: config.data } :
+        { success: true, data: config.data } :
         { success: false, error: JSON.stringify(config.error.format()) };
 };
 

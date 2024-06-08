@@ -1,19 +1,19 @@
 version: 2.1
 
 jobs:
-  run_unit_tests_service:
-    description: Run unit tests (service)
+  run_unit_tests_backend:
+    description: Run unit tests (backend)
     docker:
       - image: cimg/base:2024.05
     steps:
       - checkout
       - setup_remote_docker
       - run:
-          name: Test service
-          command: cd service && docker build --target=test .
+          name: Test backend
+          command: cd backend && docker build --target=test .
 
 workflows:
   version: 2
   test:
     jobs:
-      - run_unit_tests_service
+      - run_unit_tests_backend

@@ -1,3 +1,3 @@
-import validateEnvironmentVariables from "./validateEnvironmentVariables";
+import loadEnvironmentVariables from "./loadEnvironmentVariables";
 
-export default validateEnvironmentVariables;
+export default loadEnvironmentVariables;

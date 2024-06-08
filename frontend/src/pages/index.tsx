@@ -23,8 +23,7 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
     return {
         props: {
             env: loadEnvironmentVariables()
-        },
-        revalidate: false
+        }
     }
 };
 

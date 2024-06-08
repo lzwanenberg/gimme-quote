@@ -1,3 +1,4 @@
+# BUILD
 FROM node:18-alpine as build
 WORKDIR /app
 
@@ -6,6 +7,11 @@ RUN npm ci
 COPY . .
 RUN npm run build
 
+# TEST
+FROM build as test
+RUN npm run test
+
+# PRODUCTION
 FROM node:18-alpine as production
 WORKDIR /app
 COPY --from=build /app/package.json .

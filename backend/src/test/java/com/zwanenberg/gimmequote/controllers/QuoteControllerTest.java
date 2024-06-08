@@ -36,6 +36,7 @@ public class QuoteControllerTest {
         mockMvc.perform(get("/").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(header().string("Access-Control-Allow-Origin", "*"))
                 .andExpect(jsonPath("$.author").value("Gandalf"))
                 .andExpect(jsonPath("$.content").value("All we have to decide is what to do with the time that is given us."));
     }

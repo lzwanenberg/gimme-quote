@@ -12,8 +12,20 @@ jobs:
           name: Test backend
           command: cd backend && docker build --target=test .
 
+  run_unit_tests_frontend:
+    description: Run unit tests (frontend)
+    docker:
+      - image: cimg/base:2024.05
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Test frontend
+          command: cd frontend && docker build --target=test .
+
 workflows:
   version: 2
   test:
     jobs:
       - run_unit_tests_backend
+      - run_unit_tests_frontend

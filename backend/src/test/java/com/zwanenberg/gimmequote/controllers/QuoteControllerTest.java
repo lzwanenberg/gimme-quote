@@ -1,7 +1,7 @@
 package com.zwanenberg.gimmequote.controllers;
 
 import com.zwanenberg.gimmequote.models.Quote;
-import com.zwanenberg.gimmequote.services.QuoteAggregatorService;
+import com.zwanenberg.gimmequote.quote_aggregator.QuoteAggregatorService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;

@@ -1,4 +1,4 @@
-package com.zwanenberg.gimmequote.services;
+package com.zwanenberg.gimmequote.quote_aggregator;
 import com.zwanenberg.gimmequote.models.Quote;
 import com.zwanenberg.gimmequote.quote_retrieval.QuoteRetrievalError;
 import com.zwanenberg.gimmequote.quote_retrieval.QuoteService;

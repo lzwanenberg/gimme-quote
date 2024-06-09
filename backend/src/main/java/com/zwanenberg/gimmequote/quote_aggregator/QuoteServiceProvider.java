@@ -1,4 +1,4 @@
-package com.zwanenberg.gimmequote.services;
+package com.zwanenberg.gimmequote.quote_aggregator;
 
 import com.zwanenberg.gimmequote.quote_retrieval.QuoteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,12 +12,12 @@ public class QuoteServiceProvider {
     private final List<QuoteService> quoteServices;
     private final Random random;
 
+    @Autowired
     public QuoteServiceProvider(List<QuoteService> quoteServices) {
         this.quoteServices = quoteServices;
         this.random = new Random();
     }
 
-    @Autowired
     public QuoteService getRandom() {
         int index = random.nextInt(quoteServices.size());
         return quoteServices.get(index);

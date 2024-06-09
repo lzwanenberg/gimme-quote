@@ -1,7 +1,7 @@
 package com.zwanenberg.gimmequote.controllers;
 
 import com.zwanenberg.gimmequote.models.Quote;
-import com.zwanenberg.gimmequote.services.QuoteAggregatorService;
+import com.zwanenberg.gimmequote.quote_aggregator.QuoteAggregatorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -1,5 +1,6 @@
 package com.zwanenberg.gimmequote.services;
 
+import com.zwanenberg.gimmequote.quote_retrieval.QuoteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

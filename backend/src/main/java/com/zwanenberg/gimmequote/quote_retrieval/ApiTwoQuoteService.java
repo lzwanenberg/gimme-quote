@@ -1,4 +1,4 @@
-package com.zwanenberg.gimmequote.services;
+package com.zwanenberg.gimmequote.quote_retrieval;
 
 import com.zwanenberg.gimmequote.models.Quote;
 import org.springframework.stereotype.Service;
@@ -9,7 +9,6 @@ public class ApiTwoQuoteService implements QuoteService {
     public Quote fetchQuote() {
         String text = "Quote from website two";
         String author = "Author Two";
-
         return new Quote(author, text);
     }
 }

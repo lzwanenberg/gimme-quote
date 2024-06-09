@@ -1,12 +1,9 @@
 package com.zwanenberg.gimmequote.services;
 import com.zwanenberg.gimmequote.models.Quote;
+import com.zwanenberg.gimmequote.quote_retrieval.QuoteService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
-
-import java.util.Arrays;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

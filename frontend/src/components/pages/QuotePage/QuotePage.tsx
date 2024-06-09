@@ -2,6 +2,8 @@ import { useQuoteService } from "@/hooks/useQuoteService";
 import FetchQuoteResult from "@/services/QuoteService/types/FetchQuoteResult";
 import { useEffect, useState } from "react";
 import Quote from "./Quote";
+import LoadingIndicator from "./LoadingIndicator";
+import ErrorMessage from "./ErrorMessage";
 
 const QuotePage = () => {
     const quoteService = useQuoteService();
@@ -16,8 +18,9 @@ const QuotePage = () => {
 
     return (
         <div>
+            {!fetchResult && <LoadingIndicator />}
             {fetchResult && fetchResult.success && <Quote response={fetchResult.response} />}
-            {fetchResult && !fetchResult.success && "Something went wrong."}
+            {fetchResult && !fetchResult.success && <ErrorMessage />}
         </div>
     );
 };

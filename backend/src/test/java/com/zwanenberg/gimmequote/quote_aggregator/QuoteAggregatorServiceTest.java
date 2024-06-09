@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class QuoteAggregatorServiceTest {
     private QuoteAggregatorService quoteAggregatorService;
@@ -30,8 +31,10 @@ public class QuoteAggregatorServiceTest {
         String expectedAuthor = "Gandalf";
         String expectedContent = "All we have to decide is what to do with the time that is given us.";
 
-        Quote quote = quoteAggregatorService.getQuote();
+        Either<QuoteAggregatedRetrievalError, Quote> result = quoteAggregatorService.getQuote();
+        Quote quote = result.get();
 
+        assertTrue(result.isRight());
         assertEquals(expectedAuthor, quote.getAuthor());
         assertEquals(expectedContent, quote.getContent());
     }

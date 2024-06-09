@@ -1,7 +1,9 @@
 package com.zwanenberg.gimmequote.controllers;
 
 import com.zwanenberg.gimmequote.models.Quote;
+import com.zwanenberg.gimmequote.quote_aggregator.QuoteAggregatedRetrievalError;
 import com.zwanenberg.gimmequote.quote_aggregator.QuoteAggregatorService;
+import io.vavr.control.Either;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -29,9 +31,10 @@ public class QuoteControllerTest {
 
     @Test
     public void testIndex() throws Exception {
-        Quote mockQuote = new Quote("Gandalf", "All we have to decide is what to do with the time that is given us.");
+        Quote quote = new Quote("Gandalf", "All we have to decide is what to do with the time that is given us.");
+        Either<QuoteAggregatedRetrievalError, Quote> result = Either.right(quote);
 
-        when(quoteAggregatorService.getQuote()).thenReturn(mockQuote);
+        when(quoteAggregatorService.getQuote()).thenReturn(result);
 
         mockMvc.perform(get("/").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())

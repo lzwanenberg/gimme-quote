@@ -17,7 +17,7 @@ public class QuoteAggregatorService {
         this.quoteServiceProvider = quoteServiceProvider;
     }
 
-    public Quote getQuote() {
+    public Either<QuoteAggregatedRetrievalError, Quote> getQuote() {
         QuoteService randomService = quoteServiceProvider.getRandom();
         Either<QuoteRetrievalError, Quote> result = randomService.fetchQuote();
 
@@ -25,10 +25,9 @@ public class QuoteAggregatorService {
             String serviceName = randomService.getName();
             QuoteRetrievalError error = result.getLeft();
 
-            // TODO: handle error properly
-            return new Quote("ERROR " + serviceName, error.getMessage());
+            return Either.left(new QuoteAggregatedRetrievalError(serviceName, error));
         }
 
-        return result.get();
+        return Either.right(result.get());
     }
 }

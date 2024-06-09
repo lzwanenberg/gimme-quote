@@ -1,7 +1,10 @@
 package com.zwanenberg.gimmequote.controllers;
 
 import com.zwanenberg.gimmequote.models.Quote;
+import com.zwanenberg.gimmequote.quote_aggregator.QuoteAggregatedRetrievalError;
 import com.zwanenberg.gimmequote.quote_aggregator.QuoteAggregatorService;
+import io.vavr.control.Either;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,8 +20,18 @@ public class QuoteController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<Quote> getQuote() throws Exception {
-        Quote quote = quoteAggregatorService.getQuote();
+    public ResponseEntity<?> getQuote() throws Exception {
+        Either<QuoteAggregatedRetrievalError, Quote> result = quoteAggregatorService.getQuote();
+
+        if (result.isLeft()) {
+            QuoteAggregatedRetrievalError error = result.getLeft();
+
+            return ResponseEntity.internalServerError()
+                    .header("Access-Control-Allow-Origin", "*")
+                    .body(error);
+        }
+
+        Quote quote = result.get();
 
         return ResponseEntity.ok()
                 .header("Access-Control-Allow-Origin", "*")

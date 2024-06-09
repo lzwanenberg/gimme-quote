@@ -17,7 +17,7 @@ public class QuoteController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<Quote> getQuote() {
+    public ResponseEntity<Quote> getQuote() throws Exception {
         Quote quote = quoteAggregatorService.getQuote();
 
         return ResponseEntity.ok()

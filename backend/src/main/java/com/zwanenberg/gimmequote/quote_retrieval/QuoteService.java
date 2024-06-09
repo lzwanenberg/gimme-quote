@@ -1,6 +1,8 @@
 package com.zwanenberg.gimmequote.quote_retrieval;
 import com.zwanenberg.gimmequote.models.Quote;
+import io.vavr.control.Either;
 
 public interface QuoteService {
-    Quote fetchQuote();
+    String getName();
+    Either<QuoteRetrievalError, Quote> fetchQuote();
 }

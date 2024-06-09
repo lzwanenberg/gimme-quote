@@ -1,6 +1,8 @@
 package com.zwanenberg.gimmequote.services;
 import com.zwanenberg.gimmequote.models.Quote;
+import com.zwanenberg.gimmequote.quote_retrieval.QuoteRetrievalError;
 import com.zwanenberg.gimmequote.quote_retrieval.QuoteService;
+import io.vavr.control.Either;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -14,10 +16,10 @@ public class QuoteAggregatorServiceTest {
     public void setUp() {
         QuoteServiceProvider quoteServiceProvider = Mockito.mock(QuoteServiceProvider.class);
         QuoteService randomService = Mockito.mock(QuoteService.class);
+        Quote quote = new Quote("Gandalf", "All we have to decide is what to do with the time that is given us.");
+        Either<QuoteRetrievalError, Quote> result = Either.right(quote);
 
-        Mockito.when(randomService.fetchQuote()).thenReturn(
-                new Quote("Gandalf", "All we have to decide is what to do with the time that is given us."));
-
+        Mockito.when(randomService.fetchQuote()).thenReturn(result);
         Mockito.when(quoteServiceProvider.getRandom()).thenReturn(randomService);
 
         quoteAggregatorService = new QuoteAggregatorService(quoteServiceProvider);

@@ -8,5 +8,6 @@ import org.springframework.http.ResponseEntity;
 @NoArgsConstructor
 @AllArgsConstructor
 public class QuoteRetrievalError {
+    private Exception exception;
     private ResponseEntity<?> response;
 }

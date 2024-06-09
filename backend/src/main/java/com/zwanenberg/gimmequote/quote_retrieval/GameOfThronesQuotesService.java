@@ -1,7 +1,6 @@
 package com.zwanenberg.gimmequote.quote_retrieval;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.zwanenberg.gimmequote.models.Quote;
 import io.vavr.control.Either;
 import lombok.Getter;
@@ -12,30 +11,29 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 @Service
-public class BreakingBadQuotesService implements QuoteService {
+public class GameOfThronesQuotesService implements QuoteService {
     private final RestTemplate restTemplate;
 
     @Autowired
-    public BreakingBadQuotesService(RestTemplate restTemplate) {
+    public GameOfThronesQuotesService(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
 
     @Override
     public String getName() {
-        return "breakingbadquotes.xyz";
+        return "gameofthronesquotes.xyz";
     }
 
     @Override
     public Either<QuoteRetrievalError, Quote> fetchQuote() {
-        String url = "https://api.breakingbadquotes.xyz/v1/quotes";
+        String url = "https://api.gameofthronesquotes.xyz/v1/random";
 
-        ResponseEntity<BreakingBadQuote[]> response = restTemplate.getForEntity(url, BreakingBadQuote[].class);
+        ResponseEntity<GameOfThronesQuote> response = restTemplate.getForEntity(url, GameOfThronesQuote.class);
 
         try {
-            if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null && response.getBody().length > 0) {
-                BreakingBadQuote breakingBadQuote = response.getBody()[0];
-                Quote quote = new Quote(breakingBadQuote.getAuthor(), breakingBadQuote.getQuote());
-
+            if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
+                GameOfThronesQuote gameOfThronesQuote = response.getBody();
+                Quote quote = new Quote(gameOfThronesQuote.getCharacter().getName(), gameOfThronesQuote.getSentence());
                 return Either.right(quote);
             } else {
                 QuoteRetrievalError error = new QuoteRetrievalError();
@@ -52,8 +50,15 @@ public class BreakingBadQuotesService implements QuoteService {
     @JsonIgnoreProperties(ignoreUnknown = true)
     @Getter
     @Setter
-    public static class BreakingBadQuote {
-        private String quote;
-        private String author;
+    private static class Character {
+        private String name;
+    }
+
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    @Getter
+    @Setter
+    private static class GameOfThronesQuote {
+        private String sentence;
+        private Character character;
     }
 }

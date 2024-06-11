@@ -1,8 +1,7 @@
-package com.zwanenberg.gimmequote.quote_sources;
+package com.zwanenberg.gimmequote.quote_sources.implementations;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.zwanenberg.gimmequote.models.Quote;
-import io.vavr.control.Either;
+import com.zwanenberg.gimmequote.quote_sources.FetchQuoteResult;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

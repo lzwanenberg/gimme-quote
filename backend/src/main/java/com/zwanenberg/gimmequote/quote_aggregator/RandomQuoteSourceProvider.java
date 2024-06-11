@@ -8,6 +8,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * Service that provides a random quote source
+ */
 @Service
 public class RandomQuoteSourceProvider {
     private final QuoteSourcesProvider quoteSourcesProvider;
@@ -19,6 +22,11 @@ public class RandomQuoteSourceProvider {
         this.random = random;
     }
 
+    /**
+     * Get a random quote source
+     *
+     * @return Random quote source
+     */
     public QuoteSource get() {
         List<QuoteSource> quoteSources = quoteSourcesProvider.get();
         int index = random.nextInt(quoteSources.size());

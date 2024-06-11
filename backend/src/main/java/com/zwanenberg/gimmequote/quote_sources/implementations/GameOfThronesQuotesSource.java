@@ -1,9 +1,10 @@
-package com.zwanenberg.gimmequote.quote_retrieval;
+package com.zwanenberg.gimmequote.quote_sources.implementations;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zwanenberg.gimmequote.models.Quote;
-import io.vavr.control.Either;
+import com.zwanenberg.gimmequote.quote_sources.FetchQuoteResult;
+import com.zwanenberg.gimmequote.quote_sources.QuoteSource;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,14 +13,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 @Service
-public class GameOfThronesQuotesService implements QuoteService {
+public class GameOfThronesQuotesSource implements QuoteSource {
     public static final String URL = "https://api.gameofthronesquotes.xyz/v1/random";
 
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
 
     @Autowired
-    public GameOfThronesQuotesService(RestTemplate restTemplate, ObjectMapper objectMapper) {
+    public GameOfThronesQuotesSource(RestTemplate restTemplate, ObjectMapper objectMapper) {
         this.restTemplate = restTemplate;
         this.objectMapper = objectMapper;
     }
@@ -30,27 +31,21 @@ public class GameOfThronesQuotesService implements QuoteService {
     }
 
     @Override
-    public Either<QuoteRetrievalError, Quote> fetchQuote() {
+    public FetchQuoteResult fetchQuote() {
         ResponseEntity<String> response = null;
 
         try {
             response = restTemplate.getForEntity(URL, String.class);
 
-            if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
-                GameOfThronesQuote gameOfThronesQuote = objectMapper.readValue(response.getBody(), GameOfThronesQuote.class);
+            if (!response.getStatusCode().is2xxSuccessful() || response.getBody() == null)
+                return FetchQuoteResult.createError(response);
 
-                Quote quote = new Quote(gameOfThronesQuote.getCharacter().getName(), gameOfThronesQuote.getSentence());
-                return Either.right(quote);
-            }
+            GameOfThronesQuote gameOfThronesQuote = objectMapper.readValue(response.getBody(), GameOfThronesQuote.class);
+            Quote quote = new Quote(gameOfThronesQuote.getCharacter().getName(), gameOfThronesQuote.getSentence());
 
-            QuoteRetrievalError error = new QuoteRetrievalError();
-            error.setResponse(response);
-            return Either.left(error);
-        } catch (Exception e) {
-            QuoteRetrievalError error = new QuoteRetrievalError();
-            error.setException(e);
-            error.setResponse(response);
-            return Either.left(error);
+            return FetchQuoteResult.createSuccess(quote);
+        } catch (Exception exception) {
+            return FetchQuoteResult.createError(response, exception);
         }
     }
 

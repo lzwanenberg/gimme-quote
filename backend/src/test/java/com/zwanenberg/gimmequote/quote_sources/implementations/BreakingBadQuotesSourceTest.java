@@ -1,8 +1,7 @@
-package com.zwanenberg.gimmequote.quote_retrieval;
+package com.zwanenberg.gimmequote.quote_sources.implementations;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.zwanenberg.gimmequote.models.Quote;
-import io.vavr.control.Either;
+import com.zwanenberg.gimmequote.quote_sources.FetchQuoteResult;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,18 +16,18 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.eq;
 import static org.mockito.Mockito.when;
 
-class BreakingBadQuotesServiceTest {
+class BreakingBadQuotesSourceTest {
     @Mock
     private RestTemplate restTemplate;
 
-    private BreakingBadQuotesService breakingBadQuotesService;
+    private BreakingBadQuotesSource breakingBadQuotesService;
 
     private AutoCloseable closeable;
 
     @BeforeEach
     public void setUp() {
         closeable = MockitoAnnotations.openMocks(this);
-        breakingBadQuotesService = new BreakingBadQuotesService(restTemplate, new ObjectMapper());
+        breakingBadQuotesService = new BreakingBadQuotesSource(restTemplate, new ObjectMapper());
     }
 
     @AfterEach
@@ -58,11 +57,11 @@ class BreakingBadQuotesServiceTest {
         when(restTemplate.getForEntity(url, String.class))
                 .thenReturn(responseEntity);
 
-        Either<QuoteRetrievalError, Quote> result = breakingBadQuotesService.fetchQuote();
+        FetchQuoteResult result = breakingBadQuotesService.fetchQuote();
 
-        assertTrue(result.isRight());
-        assertEquals("Walter White", result.get().getAuthor());
-        assertEquals("I am the one who knocks!", result.get().getContent());
+        assertTrue(result.isSuccessful());
+        assertEquals("Walter White", result.getQuote().getAuthor());
+        assertEquals("I am the one who knocks!", result.getQuote().getContent());
     }
 
     @Test
@@ -73,10 +72,10 @@ class BreakingBadQuotesServiceTest {
         when(restTemplate.getForEntity(anyString(), eq(String.class)))
                 .thenReturn(responseEntity);
 
-        Either<QuoteRetrievalError, Quote> result = breakingBadQuotesService.fetchQuote();
+        FetchQuoteResult result = breakingBadQuotesService.fetchQuote();
 
-        assertTrue(result.isLeft());
-        assertNotNull(result.getLeft().getResponse());
+        assertFalse(result.isSuccessful());
+        assertNotNull(result.getError().getResponse());
     }
 
     @Test
@@ -86,9 +85,9 @@ class BreakingBadQuotesServiceTest {
         when(restTemplate.getForEntity(anyString(), eq(String.class)))
                 .thenReturn(responseEntity);
 
-        Either<QuoteRetrievalError, Quote> result = breakingBadQuotesService.fetchQuote();
+        FetchQuoteResult result = breakingBadQuotesService.fetchQuote();
 
-        assertTrue(result.isLeft());
-        assertNotNull(result.getLeft().getResponse());
+        assertFalse(result.isSuccessful());
+        assertNotNull(result.getError().getResponse());
     }
 }

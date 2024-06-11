@@ -1,8 +1,7 @@
-package com.zwanenberg.gimmequote.quote_retrieval;
+package com.zwanenberg.gimmequote.quote_sources.implementations;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.zwanenberg.gimmequote.models.Quote;
-import io.vavr.control.Either;
+import com.zwanenberg.gimmequote.quote_sources.FetchQuoteResult;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,18 +16,18 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
-class GameOfThronesQuotesServiceTest {
+class GameOfThronesQuotesSourceTest {
     @Mock
     private RestTemplate restTemplate;
 
-    private GameOfThronesQuotesService gameOfThronesQuotesService;
+    private GameOfThronesQuotesSource gameOfThronesQuotesService;
 
     private AutoCloseable closeable;
 
     @BeforeEach
     public void setUp() {
         closeable = MockitoAnnotations.openMocks(this);
-        gameOfThronesQuotesService = new GameOfThronesQuotesService(restTemplate, new ObjectMapper());
+        gameOfThronesQuotesService = new GameOfThronesQuotesSource(restTemplate, new ObjectMapper());
     }
 
     @AfterEach
@@ -64,11 +63,11 @@ class GameOfThronesQuotesServiceTest {
         when(restTemplate.getForEntity(url, String.class))
                 .thenReturn(responseEntity);
 
-        Either<QuoteRetrievalError, Quote> result = gameOfThronesQuotesService.fetchQuote();
+        FetchQuoteResult result = gameOfThronesQuotesService.fetchQuote();
 
-        assertTrue(result.isRight());
-        assertEquals("Tyrion Lannister", result.get().getAuthor());
-        assertEquals("A Lannister always pays his debts.", result.get().getContent());
+        assertTrue(result.isSuccessful());
+        assertEquals("Tyrion Lannister", result.getQuote().getAuthor());
+        assertEquals("A Lannister always pays his debts.", result.getQuote().getContent());
     }
 
     @Test
@@ -79,10 +78,10 @@ class GameOfThronesQuotesServiceTest {
         when(restTemplate.getForEntity(anyString(), eq(String.class)))
                 .thenReturn(responseEntity);
 
-        Either<QuoteRetrievalError, Quote> result = gameOfThronesQuotesService.fetchQuote();
+        FetchQuoteResult result = gameOfThronesQuotesService.fetchQuote();
 
-        assertTrue(result.isLeft());
-        assertNotNull(result.getLeft().getResponse());
+        assertFalse(result.isSuccessful());
+        assertNotNull(result.getError().getResponse());
     }
 
     @Test
@@ -92,9 +91,9 @@ class GameOfThronesQuotesServiceTest {
         when(restTemplate.getForEntity(anyString(), eq(String.class)))
                 .thenReturn(responseEntity);
 
-        Either<QuoteRetrievalError, Quote> result = gameOfThronesQuotesService.fetchQuote();
+        FetchQuoteResult result = gameOfThronesQuotesService.fetchQuote();
 
-        assertTrue(result.isLeft());
-        assertNotNull(result.getLeft().getResponse());
+        assertFalse(result.isSuccessful());
+        assertNotNull(result.getError().getResponse());
     }
 }

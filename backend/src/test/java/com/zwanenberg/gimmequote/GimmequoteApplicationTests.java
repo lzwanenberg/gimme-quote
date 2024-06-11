@@ -9,13 +9,13 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
 class GimmequoteApplicationTests {
-	@Test
-	public void testMain() {
-		String[] args = {}; // No command-line arguments needed
+    @Test
+    public void testMain() {
+        String[] args = {}; // No command-line arguments needed
 
-		ConfigurableApplicationContext context = SpringApplication.run(GimmequoteApplication.class, args);
+        ConfigurableApplicationContext context = SpringApplication.run(GimmequoteApplication.class, args);
 
-		assertNotNull(context);
-		context.close(); // Close the application context after the test
-	}
+        assertNotNull(context);
+        context.close(); // Close the application context after the test
+    }
 }

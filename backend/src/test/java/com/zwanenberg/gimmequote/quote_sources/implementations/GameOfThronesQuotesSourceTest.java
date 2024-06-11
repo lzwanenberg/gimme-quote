@@ -45,18 +45,18 @@ class GameOfThronesQuotesSourceTest {
     public void testFetchQuoteSuccess() {
         String url = "https://api.gameofthronesquotes.xyz/v1/random";
         String responseBody = """
-            {
-                "sentence": "A Lannister always pays his debts.",
-                "character": {
-                    "name": "Tyrion Lannister",
-                    "slug": "tyrion",
-                    "house": {
-                        "name": "House Lannister of Casterly Rock",
-                        "slug": "lannister"
+                    {
+                        "sentence": "A Lannister always pays his debts.",
+                        "character": {
+                            "name": "Tyrion Lannister",
+                            "slug": "tyrion",
+                            "house": {
+                                "name": "House Lannister of Casterly Rock",
+                                "slug": "lannister"
+                            }
+                        }
                     }
-                }
-            }
-        """;
+                """;
 
         ResponseEntity<String> responseEntity = new ResponseEntity<>(responseBody, HttpStatus.OK);
 

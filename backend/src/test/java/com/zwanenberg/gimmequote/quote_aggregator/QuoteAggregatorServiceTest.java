@@ -1,42 +1,51 @@
 package com.zwanenberg.gimmequote.quote_aggregator;
-import com.zwanenberg.gimmequote.models.Quote;
-import com.zwanenberg.gimmequote.quote_sources.FetchQuoteError;
+
 import com.zwanenberg.gimmequote.quote_sources.FetchQuoteResult;
 import com.zwanenberg.gimmequote.quote_sources.QuoteSource;
-import io.vavr.control.Either;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
+@ExtendWith(MockitoExtension.class)
 public class QuoteAggregatorServiceTest {
-    private QuoteAggregatorService quoteAggregatorService;
+    @Mock
+    private QuoteSource randomSource;
 
-    @BeforeEach
-    public void setUp() {
-        QuoteServiceProvider quoteServiceProvider = Mockito.mock(QuoteServiceProvider.class);
-        QuoteSource randomService = Mockito.mock(QuoteSource.class);
-        Quote quote = new Quote("Gandalf", "All we have to decide is what to do with the time that is given us.");
-        FetchQuoteResult result = FetchQuoteResult.createSuccess(quote);
+    @Mock
+    private FetchQuoteResult fetchQuoteResult;
 
-        Mockito.when(randomService.fetchQuote()).thenReturn(result);
-        Mockito.when(quoteServiceProvider.getRandom()).thenReturn(randomService);
+    @Mock
+    private RandomQuoteSourceProvider randomQuoteSourceProvider;
 
-        quoteAggregatorService = new QuoteAggregatorService(quoteServiceProvider);
+    @Test
+    public void testGetQuoteReturnsSourceName() {
+        QuoteAggregatorService quoteAggregatorService =
+                new QuoteAggregatorService(randomQuoteSourceProvider);
+
+        Mockito.when(randomQuoteSourceProvider.get()).thenReturn(randomSource);
+        Mockito.when(randomSource.getName()).thenReturn("some-random-source.example");
+        Mockito.when(randomSource.fetchQuote()).thenReturn(fetchQuoteResult);
+
+        QuoteAggregatorResult aggregatorResult = quoteAggregatorService.getQuote();
+
+        assertEquals("some-random-source.example", aggregatorResult.getSourceName());
     }
 
     @Test
-    public void testGetQuote() {
-        String expectedAuthor = "Gandalf";
-        String expectedContent = "All we have to decide is what to do with the time that is given us.";
+    public void testGetQuoteReturnsFetchQuoteResult() {
+        QuoteAggregatorService quoteAggregatorService =
+                new QuoteAggregatorService(randomQuoteSourceProvider);
 
-        Either<QuoteAggregatedRetrievalError, Quote> result = quoteAggregatorService.getQuote();
-        Quote quote = result.get();
+        Mockito.when(randomQuoteSourceProvider.get()).thenReturn(randomSource);
+        Mockito.when(randomSource.getName()).thenReturn("some-random-source.example");
+        Mockito.when(randomSource.fetchQuote()).thenReturn(fetchQuoteResult);
 
-        assertTrue(result.isRight());
-        assertEquals(expectedAuthor, quote.getAuthor());
-        assertEquals(expectedContent, quote.getContent());
+        QuoteAggregatorResult aggregatorResult = quoteAggregatorService.getQuote();
+
+        assertEquals(fetchQuoteResult, aggregatorResult.getResult());
     }
 }

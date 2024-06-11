@@ -1,4 +1,4 @@
-package com.zwanenberg.gimmequote.quote_retrieval;
+package com.zwanenberg.gimmequote.quote_sources;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -12,14 +12,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 @Service
-public class GameOfThronesQuotesService implements QuoteService {
+public class GameOfThronesQuotesSource implements QuoteSource {
     public static final String URL = "https://api.gameofthronesquotes.xyz/v1/random";
 
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
 
     @Autowired
-    public GameOfThronesQuotesService(RestTemplate restTemplate, ObjectMapper objectMapper) {
+    public GameOfThronesQuotesSource(RestTemplate restTemplate, ObjectMapper objectMapper) {
         this.restTemplate = restTemplate;
         this.objectMapper = objectMapper;
     }
@@ -30,7 +30,7 @@ public class GameOfThronesQuotesService implements QuoteService {
     }
 
     @Override
-    public Either<QuoteRetrievalError, Quote> fetchQuote() {
+    public Either<QuoteFetchError, Quote> fetchQuote() {
         ResponseEntity<String> response = null;
 
         try {
@@ -43,11 +43,11 @@ public class GameOfThronesQuotesService implements QuoteService {
                 return Either.right(quote);
             }
 
-            QuoteRetrievalError error = new QuoteRetrievalError();
+            QuoteFetchError error = new QuoteFetchError();
             error.setResponse(response);
             return Either.left(error);
         } catch (Exception e) {
-            QuoteRetrievalError error = new QuoteRetrievalError();
+            QuoteFetchError error = new QuoteFetchError();
             error.setException(e);
             error.setResponse(response);
             return Either.left(error);

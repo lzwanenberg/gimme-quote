@@ -1,4 +1,4 @@
-package com.zwanenberg.gimmequote.quote_retrieval;
+package com.zwanenberg.gimmequote.quote_sources;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -12,14 +12,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 @Service
-public class BreakingBadQuotesService implements QuoteService {
+public class BreakingBadQuotesSource implements QuoteSource {
     public static final String URL = "https://api.breakingbadquotes.xyz/v1/quotes";
 
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
 
     @Autowired
-    public BreakingBadQuotesService(RestTemplate restTemplate, ObjectMapper objectMapper) {
+    public BreakingBadQuotesSource(RestTemplate restTemplate, ObjectMapper objectMapper) {
         this.restTemplate = restTemplate;
         this.objectMapper = objectMapper;
     }
@@ -30,7 +30,7 @@ public class BreakingBadQuotesService implements QuoteService {
     }
 
     @Override
-    public Either<QuoteRetrievalError, Quote> fetchQuote() {
+    public Either<QuoteFetchError, Quote> fetchQuote() {
         ResponseEntity<String> response = null;
 
         try {
@@ -47,11 +47,11 @@ public class BreakingBadQuotesService implements QuoteService {
                 }
             }
 
-            QuoteRetrievalError error = new QuoteRetrievalError();
+            QuoteFetchError error = new QuoteFetchError();
             error.setResponse(response);
             return Either.left(error);
         } catch (Exception e) {
-            QuoteRetrievalError error = new QuoteRetrievalError();
+            QuoteFetchError error = new QuoteFetchError();
             error.setException(e);
             error.setResponse(response);
             return Either.left(error);

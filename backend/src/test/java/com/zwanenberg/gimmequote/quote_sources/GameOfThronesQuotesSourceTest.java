@@ -1,4 +1,4 @@
-package com.zwanenberg.gimmequote.quote_retrieval;
+package com.zwanenberg.gimmequote.quote_sources;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zwanenberg.gimmequote.models.Quote;
@@ -17,18 +17,18 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
-class GameOfThronesQuotesServiceTest {
+class GameOfThronesQuotesSourceTest {
     @Mock
     private RestTemplate restTemplate;
 
-    private GameOfThronesQuotesService gameOfThronesQuotesService;
+    private GameOfThronesQuotesSource gameOfThronesQuotesService;
 
     private AutoCloseable closeable;
 
     @BeforeEach
     public void setUp() {
         closeable = MockitoAnnotations.openMocks(this);
-        gameOfThronesQuotesService = new GameOfThronesQuotesService(restTemplate, new ObjectMapper());
+        gameOfThronesQuotesService = new GameOfThronesQuotesSource(restTemplate, new ObjectMapper());
     }
 
     @AfterEach
@@ -64,7 +64,7 @@ class GameOfThronesQuotesServiceTest {
         when(restTemplate.getForEntity(url, String.class))
                 .thenReturn(responseEntity);
 
-        Either<QuoteRetrievalError, Quote> result = gameOfThronesQuotesService.fetchQuote();
+        Either<QuoteFetchError, Quote> result = gameOfThronesQuotesService.fetchQuote();
 
         assertTrue(result.isRight());
         assertEquals("Tyrion Lannister", result.get().getAuthor());
@@ -79,7 +79,7 @@ class GameOfThronesQuotesServiceTest {
         when(restTemplate.getForEntity(anyString(), eq(String.class)))
                 .thenReturn(responseEntity);
 
-        Either<QuoteRetrievalError, Quote> result = gameOfThronesQuotesService.fetchQuote();
+        Either<QuoteFetchError, Quote> result = gameOfThronesQuotesService.fetchQuote();
 
         assertTrue(result.isLeft());
         assertNotNull(result.getLeft().getResponse());
@@ -92,7 +92,7 @@ class GameOfThronesQuotesServiceTest {
         when(restTemplate.getForEntity(anyString(), eq(String.class)))
                 .thenReturn(responseEntity);
 
-        Either<QuoteRetrievalError, Quote> result = gameOfThronesQuotesService.fetchQuote();
+        Either<QuoteFetchError, Quote> result = gameOfThronesQuotesService.fetchQuote();
 
         assertTrue(result.isLeft());
         assertNotNull(result.getLeft().getResponse());

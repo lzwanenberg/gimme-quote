@@ -22,16 +22,17 @@ public class QuoteAggregatorServiceTest {
     private RandomQuoteSourceProvider randomQuoteSourceProvider;
 
     @Test
-    public void testGetQuoteReturnsSource() {
+    public void testGetQuoteReturnsSourceName() {
         QuoteAggregatorService quoteAggregatorService =
                 new QuoteAggregatorService(randomQuoteSourceProvider);
 
         Mockito.when(randomQuoteSourceProvider.get()).thenReturn(randomSource);
+        Mockito.when(randomSource.getName()).thenReturn("some-random-source.example");
         Mockito.when(randomSource.fetchQuote()).thenReturn(fetchQuoteResult);
 
         QuoteAggregatorResult aggregatorResult = quoteAggregatorService.getQuote();
 
-        assertEquals(randomSource, aggregatorResult.getSource());
+        assertEquals("some-random-source.example", aggregatorResult.getSourceName());
     }
 
     @Test
@@ -40,6 +41,7 @@ public class QuoteAggregatorServiceTest {
                 new QuoteAggregatorService(randomQuoteSourceProvider);
 
         Mockito.when(randomQuoteSourceProvider.get()).thenReturn(randomSource);
+        Mockito.when(randomSource.getName()).thenReturn("some-random-source.example");
         Mockito.when(randomSource.fetchQuote()).thenReturn(fetchQuoteResult);
 
         QuoteAggregatorResult aggregatorResult = quoteAggregatorService.getQuote();

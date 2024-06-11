@@ -18,6 +18,6 @@ public class QuoteAggregatorService {
     public QuoteAggregatorResult getQuote() {
         QuoteSource randomSource = randomQuoteSourceProvider.get();
         FetchQuoteResult result = randomSource.fetchQuote();
-        return new QuoteAggregatorResult(randomSource, result);
+        return new QuoteAggregatorResult(randomSource.getName(), result);
     }
 }

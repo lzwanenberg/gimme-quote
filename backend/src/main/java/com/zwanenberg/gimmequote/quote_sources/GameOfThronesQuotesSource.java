@@ -3,7 +3,6 @@ package com.zwanenberg.gimmequote.quote_sources;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zwanenberg.gimmequote.models.Quote;
-import io.vavr.control.Either;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +29,7 @@ public class GameOfThronesQuotesSource implements QuoteSource {
     }
 
     @Override
-    public Either<QuoteFetchError, Quote> fetchQuote() {
+    public FetchQuoteResult fetchQuote() {
         ResponseEntity<String> response = null;
 
         try {
@@ -40,17 +39,12 @@ public class GameOfThronesQuotesSource implements QuoteSource {
                 GameOfThronesQuote gameOfThronesQuote = objectMapper.readValue(response.getBody(), GameOfThronesQuote.class);
 
                 Quote quote = new Quote(gameOfThronesQuote.getCharacter().getName(), gameOfThronesQuote.getSentence());
-                return Either.right(quote);
+                return FetchQuoteResult.createSuccess(quote);
             }
 
-            QuoteFetchError error = new QuoteFetchError();
-            error.setResponse(response);
-            return Either.left(error);
-        } catch (Exception e) {
-            QuoteFetchError error = new QuoteFetchError();
-            error.setException(e);
-            error.setResponse(response);
-            return Either.left(error);
+            return FetchQuoteResult.createError(response);
+        } catch (Exception exception) {
+            return FetchQuoteResult.createError(response, exception);
         }
     }
 

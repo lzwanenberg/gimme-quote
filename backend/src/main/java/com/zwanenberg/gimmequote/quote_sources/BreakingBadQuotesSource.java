@@ -3,7 +3,6 @@ package com.zwanenberg.gimmequote.quote_sources;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zwanenberg.gimmequote.models.Quote;
-import io.vavr.control.Either;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,38 +29,28 @@ public class BreakingBadQuotesSource implements QuoteSource {
     }
 
     @Override
-    public Either<QuoteFetchError, Quote> fetchQuote() {
+    public FetchQuoteResult fetchQuote() {
         ResponseEntity<String> response = null;
 
         try {
             response = restTemplate.getForEntity(URL, String.class);
 
             if (!response.getStatusCode().is2xxSuccessful() || response.getBody() == null)
-                return createFetchError(response);
+                return FetchQuoteResult.createError(response);
 
             BreakingBadQuote[] breakingBadQuotes = objectMapper
                     .readValue(response.getBody(), BreakingBadQuote[].class);
 
-            if (breakingBadQuotes.length == 0) return createFetchError(response);
+            if (breakingBadQuotes.length == 0)
+                return FetchQuoteResult.createError(response);
 
             BreakingBadQuote breakingBadQuote = breakingBadQuotes[0];
             Quote quote = new Quote(breakingBadQuote.getAuthor(), breakingBadQuote.getQuote());
 
-            return Either.right(quote);
-        } catch (Exception e) {
-            return createFetchError(response, e);
+            return FetchQuoteResult.createSuccess(quote);
+        } catch (Exception exception) {
+            return FetchQuoteResult.createError(response, exception);
         }
-    }
-
-    private static Either<QuoteFetchError, Quote> createFetchError(ResponseEntity<String> response) {
-        return createFetchError(response, null);
-    }
-
-    private static Either<QuoteFetchError, Quote> createFetchError(ResponseEntity<String> response, Exception e) {
-        QuoteFetchError error = new QuoteFetchError();
-        error.setResponse(response);
-        error.setException(e);
-        return Either.left(error);
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)

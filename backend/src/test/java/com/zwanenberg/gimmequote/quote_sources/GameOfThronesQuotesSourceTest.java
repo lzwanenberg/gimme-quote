@@ -64,11 +64,11 @@ class GameOfThronesQuotesSourceTest {
         when(restTemplate.getForEntity(url, String.class))
                 .thenReturn(responseEntity);
 
-        Either<QuoteFetchError, Quote> result = gameOfThronesQuotesService.fetchQuote();
+        FetchQuoteResult result = gameOfThronesQuotesService.fetchQuote();
 
-        assertTrue(result.isRight());
-        assertEquals("Tyrion Lannister", result.get().getAuthor());
-        assertEquals("A Lannister always pays his debts.", result.get().getContent());
+        assertTrue(result.isSuccessful());
+        assertEquals("Tyrion Lannister", result.getQuote().getAuthor());
+        assertEquals("A Lannister always pays his debts.", result.getQuote().getContent());
     }
 
     @Test
@@ -79,10 +79,10 @@ class GameOfThronesQuotesSourceTest {
         when(restTemplate.getForEntity(anyString(), eq(String.class)))
                 .thenReturn(responseEntity);
 
-        Either<QuoteFetchError, Quote> result = gameOfThronesQuotesService.fetchQuote();
+        FetchQuoteResult result = gameOfThronesQuotesService.fetchQuote();
 
-        assertTrue(result.isLeft());
-        assertNotNull(result.getLeft().getResponse());
+        assertFalse(result.isSuccessful());
+        assertNotNull(result.getError().getResponse());
     }
 
     @Test
@@ -92,9 +92,9 @@ class GameOfThronesQuotesSourceTest {
         when(restTemplate.getForEntity(anyString(), eq(String.class)))
                 .thenReturn(responseEntity);
 
-        Either<QuoteFetchError, Quote> result = gameOfThronesQuotesService.fetchQuote();
+        FetchQuoteResult result = gameOfThronesQuotesService.fetchQuote();
 
-        assertTrue(result.isLeft());
-        assertNotNull(result.getLeft().getResponse());
+        assertFalse(result.isSuccessful());
+        assertNotNull(result.getError().getResponse());
     }
 }

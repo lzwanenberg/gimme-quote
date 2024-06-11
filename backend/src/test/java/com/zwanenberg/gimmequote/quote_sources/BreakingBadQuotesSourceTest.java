@@ -58,11 +58,11 @@ class BreakingBadQuotesSourceTest {
         when(restTemplate.getForEntity(url, String.class))
                 .thenReturn(responseEntity);
 
-        Either<QuoteFetchError, Quote> result = breakingBadQuotesService.fetchQuote();
+        FetchQuoteResult result = breakingBadQuotesService.fetchQuote();
 
-        assertTrue(result.isRight());
-        assertEquals("Walter White", result.get().getAuthor());
-        assertEquals("I am the one who knocks!", result.get().getContent());
+        assertTrue(result.isSuccessful());
+        assertEquals("Walter White", result.getQuote().getAuthor());
+        assertEquals("I am the one who knocks!", result.getQuote().getContent());
     }
 
     @Test
@@ -73,10 +73,10 @@ class BreakingBadQuotesSourceTest {
         when(restTemplate.getForEntity(anyString(), eq(String.class)))
                 .thenReturn(responseEntity);
 
-        Either<QuoteFetchError, Quote> result = breakingBadQuotesService.fetchQuote();
+        FetchQuoteResult result = breakingBadQuotesService.fetchQuote();
 
-        assertTrue(result.isLeft());
-        assertNotNull(result.getLeft().getResponse());
+        assertFalse(result.isSuccessful());
+        assertNotNull(result.getError().getResponse());
     }
 
     @Test
@@ -86,9 +86,9 @@ class BreakingBadQuotesSourceTest {
         when(restTemplate.getForEntity(anyString(), eq(String.class)))
                 .thenReturn(responseEntity);
 
-        Either<QuoteFetchError, Quote> result = breakingBadQuotesService.fetchQuote();
+        FetchQuoteResult result = breakingBadQuotesService.fetchQuote();
 
-        assertTrue(result.isLeft());
-        assertNotNull(result.getLeft().getResponse());
+        assertFalse(result.isSuccessful());
+        assertNotNull(result.getError().getResponse());
     }
 }

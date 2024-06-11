@@ -1,7 +1,8 @@
 package com.zwanenberg.gimmequote.quote_aggregator;
 
 import com.zwanenberg.gimmequote.models.Quote;
-import com.zwanenberg.gimmequote.quote_sources.QuoteFetchError;
+import com.zwanenberg.gimmequote.quote_sources.FetchQuoteResult;
+import com.zwanenberg.gimmequote.quote_sources.FetchQuoteError;
 import com.zwanenberg.gimmequote.quote_sources.QuoteSource;
 import io.vavr.control.Either;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,15 +20,15 @@ public class QuoteAggregatorService {
 
     public Either<QuoteAggregatedRetrievalError, Quote> getQuote() {
         QuoteSource randomService = quoteServiceProvider.getRandom();
-        Either<QuoteFetchError, Quote> result = randomService.fetchQuote();
+        FetchQuoteResult result = randomService.fetchQuote();
 
-        if (result.isLeft()) {
+        if (!result.isSuccessful()) {
             String serviceName = randomService.getName();
-            QuoteFetchError error = result.getLeft();
+            FetchQuoteError error = result.getError();
 
             return Either.left(new QuoteAggregatedRetrievalError(serviceName, error));
         }
 
-        return Either.right(result.get());
+        return Either.right(result.getQuote());
     }
 }

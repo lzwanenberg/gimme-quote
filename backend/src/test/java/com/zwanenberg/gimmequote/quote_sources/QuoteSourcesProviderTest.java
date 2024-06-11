@@ -1,9 +1,6 @@
 package com.zwanenberg.gimmequote.quote_sources;
 
-import com.zwanenberg.gimmequote.quote_sources.implementations.BreakingBadQuotesSource;
-import com.zwanenberg.gimmequote.quote_sources.implementations.GameOfThronesQuotesSource;
-import com.zwanenberg.gimmequote.quote_sources.implementations.KanyeRestQuotesSource;
-import com.zwanenberg.gimmequote.quote_sources.implementations.QuoteGardenQuotesSource;
+import com.zwanenberg.gimmequote.quote_sources.implementations.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -25,7 +22,8 @@ class QuoteSourcesProviderTest {
                 BreakingBadQuotesSource.class,
                 GameOfThronesQuotesSource.class,
                 QuoteGardenQuotesSource.class,
-                KanyeRestQuotesSource.class
+                KanyeRestQuotesSource.class,
+                QuotableQuotesSource.class
         );
 
         List<Class<?>> actual = quoteSourcesProvider.get().stream()

@@ -33,10 +33,10 @@ public class FetchQuoteResult {
     }
 
     public Quote getQuote() {
-        return result.get();
+        return result.isRight() ? result.get() : null;
     }
 
     public FetchQuoteError getError() {
-        return result.getLeft();
+        return result.isLeft() ? result.getLeft() : null;
     }
 }

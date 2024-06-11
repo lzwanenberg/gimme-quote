@@ -36,26 +36,32 @@ public class BreakingBadQuotesSource implements QuoteSource {
         try {
             response = restTemplate.getForEntity(URL, String.class);
 
-            if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
-                BreakingBadQuote[] breakingBadQuotes = objectMapper.readValue(response.getBody(), BreakingBadQuote[].class);
+            if (!response.getStatusCode().is2xxSuccessful() || response.getBody() == null)
+                return createFetchError(response);
 
-                if (breakingBadQuotes.length > 0) {
-                    BreakingBadQuote breakingBadQuote = breakingBadQuotes[0];
-                    Quote quote = new Quote(breakingBadQuote.getAuthor(), breakingBadQuote.getQuote());
+            BreakingBadQuote[] breakingBadQuotes = objectMapper
+                    .readValue(response.getBody(), BreakingBadQuote[].class);
 
-                    return Either.right(quote);
-                }
-            }
+            if (breakingBadQuotes.length == 0) return createFetchError(response);
 
-            QuoteFetchError error = new QuoteFetchError();
-            error.setResponse(response);
-            return Either.left(error);
+            BreakingBadQuote breakingBadQuote = breakingBadQuotes[0];
+            Quote quote = new Quote(breakingBadQuote.getAuthor(), breakingBadQuote.getQuote());
+
+            return Either.right(quote);
         } catch (Exception e) {
-            QuoteFetchError error = new QuoteFetchError();
-            error.setException(e);
-            error.setResponse(response);
-            return Either.left(error);
+            return createFetchError(response, e);
         }
+    }
+
+    private static Either<QuoteFetchError, Quote> createFetchError(ResponseEntity<String> response) {
+        return createFetchError(response, null);
+    }
+
+    private static Either<QuoteFetchError, Quote> createFetchError(ResponseEntity<String> response, Exception e) {
+        QuoteFetchError error = new QuoteFetchError();
+        error.setResponse(response);
+        error.setException(e);
+        return Either.left(error);
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)

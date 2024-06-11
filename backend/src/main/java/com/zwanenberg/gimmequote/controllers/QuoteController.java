@@ -1,9 +1,8 @@
 package com.zwanenberg.gimmequote.controllers;
 
-import com.zwanenberg.gimmequote.models.Quote;
-import com.zwanenberg.gimmequote.quote_aggregator.QuoteAggregatedRetrievalError;
+import com.zwanenberg.gimmequote.quote_aggregator.QuoteAggregatorResult;
 import com.zwanenberg.gimmequote.quote_aggregator.QuoteAggregatorService;
-import io.vavr.control.Either;
+import com.zwanenberg.gimmequote.quote_sources.FetchQuoteResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,20 +19,11 @@ public class QuoteController {
 
     @GetMapping("/")
     public ResponseEntity<?> getQuote() throws Exception {
-        Either<QuoteAggregatedRetrievalError, Quote> result = quoteAggregatorService.getQuote();
+        QuoteAggregatorResult aggregatorResult = quoteAggregatorService.getQuote();
+        FetchQuoteResult result = aggregatorResult.getResult();
 
-        if (result.isLeft()) {
-            QuoteAggregatedRetrievalError error = result.getLeft();
-
-            return ResponseEntity.internalServerError()
-                    .header("Access-Control-Allow-Origin", "*")
-                    .body(error);
-        }
-
-        Quote quote = result.get();
-
-        return ResponseEntity.ok()
+        return (result.isSuccessful() ? ResponseEntity.ok() : ResponseEntity.internalServerError())
                 .header("Access-Control-Allow-Origin", "*")
-                .body(quote);
+                .body(result.isSuccessful() ? result.getQuote() : aggregatorResult);
     }
 }

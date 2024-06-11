@@ -35,14 +35,13 @@ public class GameOfThronesQuotesSource implements QuoteSource {
         try {
             response = restTemplate.getForEntity(URL, String.class);
 
-            if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
-                GameOfThronesQuote gameOfThronesQuote = objectMapper.readValue(response.getBody(), GameOfThronesQuote.class);
+            if (!response.getStatusCode().is2xxSuccessful() || response.getBody() == null)
+                return FetchQuoteResult.createError(response);
 
-                Quote quote = new Quote(gameOfThronesQuote.getCharacter().getName(), gameOfThronesQuote.getSentence());
-                return FetchQuoteResult.createSuccess(quote);
-            }
+            GameOfThronesQuote gameOfThronesQuote = objectMapper.readValue(response.getBody(), GameOfThronesQuote.class);
+            Quote quote = new Quote(gameOfThronesQuote.getCharacter().getName(), gameOfThronesQuote.getSentence());
 
-            return FetchQuoteResult.createError(response);
+            return FetchQuoteResult.createSuccess(quote);
         } catch (Exception exception) {
             return FetchQuoteResult.createError(response, exception);
         }

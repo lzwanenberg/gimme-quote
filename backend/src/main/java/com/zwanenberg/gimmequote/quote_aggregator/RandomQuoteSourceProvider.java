@@ -14,9 +14,9 @@ public class RandomQuoteSourceProvider {
     private final Random random;
 
     @Autowired
-    public RandomQuoteSourceProvider(QuoteSourcesProvider quoteSourcesProvider) {
+    public RandomQuoteSourceProvider(QuoteSourcesProvider quoteSourcesProvider, Random random) {
         this.quoteSourcesProvider = quoteSourcesProvider;
-        this.random = new Random();
+        this.random = random;
     }
 
     public QuoteSource get() {

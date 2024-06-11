@@ -5,6 +5,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Provides access to a list of {@link QuoteSource} instances.
+ */
 @Service
 public class QuoteSourcesProvider {
     private final List<QuoteSource> quoteSources;
@@ -14,6 +17,9 @@ public class QuoteSourcesProvider {
         this.quoteSources = quoteSources;
     }
 
+    /**
+     * @return List of available quote source instances.
+     */
     public List<QuoteSource> get() {
         return this.quoteSources;
     }

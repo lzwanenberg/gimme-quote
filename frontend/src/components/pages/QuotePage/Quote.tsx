@@ -2,10 +2,10 @@ import QuoteResponse from "@/services/QuoteService/types/QuoteResponse";
 
 const Quote = ({ response }: { response: QuoteResponse }) => {
     return (
-        <p>
+        <p className="animate-fade">
             {response.content}
             <br />
-            - {response.author}
+            - <span className="italic">{response.author}</span>
         </p>
     );
 };

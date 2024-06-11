@@ -2,6 +2,7 @@ package com.zwanenberg.gimmequote.quote_sources;
 
 import com.zwanenberg.gimmequote.quote_sources.implementations.BreakingBadQuotesSource;
 import com.zwanenberg.gimmequote.quote_sources.implementations.GameOfThronesQuotesSource;
+import com.zwanenberg.gimmequote.quote_sources.implementations.QuoteGardenQuotesSource;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,7 +22,8 @@ class QuoteSourcesProviderTest {
     public void testProvidesQuoteSources() {
         List<Class<? extends QuoteSource>> expected = List.of(
                 BreakingBadQuotesSource.class,
-                GameOfThronesQuotesSource.class
+                GameOfThronesQuotesSource.class,
+                QuoteGardenQuotesSource.class
         );
 
         List<Class<?>> actual = quoteSourcesProvider.get().stream()

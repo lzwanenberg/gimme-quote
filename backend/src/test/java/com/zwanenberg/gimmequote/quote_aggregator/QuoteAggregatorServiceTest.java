@@ -1,6 +1,6 @@
 package com.zwanenberg.gimmequote.quote_aggregator;
+
 import com.zwanenberg.gimmequote.models.Quote;
-import com.zwanenberg.gimmequote.quote_sources.FetchQuoteError;
 import com.zwanenberg.gimmequote.quote_sources.FetchQuoteResult;
 import com.zwanenberg.gimmequote.quote_sources.QuoteSource;
 import io.vavr.control.Either;
@@ -16,15 +16,17 @@ public class QuoteAggregatorServiceTest {
 
     @BeforeEach
     public void setUp() {
-        QuoteServiceProvider quoteServiceProvider = Mockito.mock(QuoteServiceProvider.class);
+        RandomQuoteSourceProvider randomQuoteSourceProvider
+                = Mockito.mock(RandomQuoteSourceProvider.class);
+
         QuoteSource randomService = Mockito.mock(QuoteSource.class);
         Quote quote = new Quote("Gandalf", "All we have to decide is what to do with the time that is given us.");
         FetchQuoteResult result = FetchQuoteResult.createSuccess(quote);
 
         Mockito.when(randomService.fetchQuote()).thenReturn(result);
-        Mockito.when(quoteServiceProvider.getRandom()).thenReturn(randomService);
+        Mockito.when(randomQuoteSourceProvider.get()).thenReturn(randomService);
 
-        quoteAggregatorService = new QuoteAggregatorService(quoteServiceProvider);
+        quoteAggregatorService = new QuoteAggregatorService(randomQuoteSourceProvider);
     }
 
     @Test

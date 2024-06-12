@@ -1,17 +1,17 @@
 import React from 'react';
-import { render, waitFor, act } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import QuotePage from './QuotePage';
-import QuoteService from '@/services/QuoteService/QuoteService';
 import { instance, mock, when } from 'ts-mockito';
 import { useQuoteService } from '@/hooks/useQuoteService';
 import { createFetchQuoteFailure, createFetchQuoteSuccess, createQuoteResponse } from '@/test-utils/factories';
 import FetchQuoteResult from '@/services/QuoteService/types/FetchQuoteResult';
+import QuoteService from '@/services/QuoteService/types/QuoteService';
 
 jest.mock('@/hooks/useQuoteService');
 const mockUseQuoteService = jest.mocked(useQuoteService);
 
 const mockQuoteService = ({ returnValue }: { returnValue: Promise<FetchQuoteResult> }) => {
-    const quoteServiceMock = mock(QuoteService);
+    const quoteServiceMock = mock<QuoteService>();
     when(quoteServiceMock.fetchQuote()).thenReturn(returnValue)
     mockUseQuoteService.mockReturnValue(instance(quoteServiceMock));
 };
@@ -75,7 +75,7 @@ describe('QuotePage', () => {
         });
     });
 
-    describe("when quote service crashes while fetching quote", () => {
+    describe("when quote service throws error while fetching quote", () => {
         it('renders error', async () => {
             mockQuoteService({
                 returnValue: Promise.reject("Something went wrong")

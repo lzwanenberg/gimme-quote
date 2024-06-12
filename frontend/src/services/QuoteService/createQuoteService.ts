@@ -1,17 +1,11 @@
-import FetchQuoteResult from "./types/FetchQuoteResult";
+import QuoteService from "./types/QuoteService";
 import QuoteResponse from "./types/QuoteResponse";
 import QuoteServiceConfig from "./types/QuoteServiceConfig";
 
-class QuoteService {
-    private config: QuoteServiceConfig;
-
-    constructor(config: QuoteServiceConfig) {
-        this.config = config;
-    }
-
-    async fetchQuote(): Promise<FetchQuoteResult> {
-        const { host, port } = this.config;
-        const url = `http://${host}:${port}`
+const createQuoteService = (config: QuoteServiceConfig): QuoteService => ({
+    fetchQuote: async () => {
+        const { host, port } = config;
+        const url = `http://${host}:${port}`;
 
         try {
             const response = await fetch(url);
@@ -26,6 +20,6 @@ class QuoteService {
             return { success: false, error: error?.message || "Unknown error." };
         }
     }
-}
+});
 
-export default QuoteService;
+export default createQuoteService;

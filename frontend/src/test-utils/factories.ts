@@ -1,6 +1,7 @@
 import FetchQuoteFailure from "@/services/QuoteService/types/FetchQuoteFail";
 import FetchQuoteSuccess from "@/services/QuoteService/types/FetchQuoteSuccess";
 import QuoteResponse from "@/services/QuoteService/types/QuoteResponse";
+import QuoteServiceConfig from "@/services/QuoteService/types/QuoteServiceConfig";
 
 const createFactory = <T,>(defaults: T) => (overrides: Partial<T> = {}) => ({
     ...defaults,
@@ -20,4 +21,9 @@ export const createFetchQuoteFailure = createFactory<FetchQuoteFailure>({
 export const createFetchQuoteSuccess = createFactory<FetchQuoteSuccess>({
     success: true,
     response: createQuoteResponse()
+});
+
+export const createQuoteServiceConfig = createFactory<QuoteServiceConfig>({
+    host: '127.0.0.1',
+    port: 3030
 });

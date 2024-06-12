@@ -10,13 +10,12 @@ const QuotePage = () => {
     const [fetchResult, setFetchResult] = useState<FetchQuoteResult>();
 
     useEffect(() => {
-        quoteService.fetchQuote().then(result => {
-            setFetchResult(result);
-            if (!result.success) console.error(result);
-        }).catch((error) => {
-            setFetchResult({ success: false, error })
-            console.error(error);
-        });
+        quoteService
+            .fetchQuote()
+            .then(setFetchResult)
+            .catch((error) => {
+                setFetchResult({ success: false, error })
+            });
     }, [quoteService]);
 
     return (

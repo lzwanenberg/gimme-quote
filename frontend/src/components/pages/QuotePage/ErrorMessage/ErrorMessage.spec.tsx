@@ -4,9 +4,9 @@ import ErrorMessage from './ErrorMessage';
 
 describe('ErrorMessage', () => {
     test('renders error message', () => {
-        render(<ErrorMessage />);
+        render(<ErrorMessage error={"Something went wrong."} />);
 
-        const contentText = screen.getByText('Something went wrong.');
+        const contentText = screen.getByText('Error: Something went wrong.');
         expect(contentText).toBeInTheDocument();
     });
 });

@@ -1,3 +1,3 @@
-const ErrorMessage = () => <div>Something went wrong.</div>
+const ErrorMessage = ({ error }: { error: string }) => <div>Error: {error}</div>
 
 export default ErrorMessage;

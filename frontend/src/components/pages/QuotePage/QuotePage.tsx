@@ -13,6 +13,9 @@ const QuotePage = () => {
         quoteService.fetchQuote().then(result => {
             setFetchResult(result);
             if (!result.success) console.error(result);
+        }).catch((error) => {
+            setFetchResult({ success: false, error })
+            console.error(error);
         });
     }, [quoteService]);
 
@@ -20,7 +23,7 @@ const QuotePage = () => {
         <div>
             {!fetchResult && <LoadingIndicator />}
             {fetchResult && fetchResult.success && <Quote response={fetchResult.response} />}
-            {fetchResult && !fetchResult.success && <ErrorMessage />}
+            {fetchResult && !fetchResult.success && <ErrorMessage error={fetchResult.error} />}
         </div>
     );
 };

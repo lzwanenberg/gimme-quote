@@ -1,6 +1,6 @@
-type FetchQuoteFail = {
+type FetchQuoteFailure = {
     success: false;
     error: string;
 };
 
-export default FetchQuoteFail;
+export default FetchQuoteFailure;

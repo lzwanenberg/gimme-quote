@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import Quote from './Quote';
-import { createQuoteResponse } from '@/test-utils';
+import { createQuoteResponse } from '@/test-utils/factories';
 
 describe('Quote', () => {
     test('renders quote content', () => {

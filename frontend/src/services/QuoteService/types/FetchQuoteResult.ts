@@ -1,6 +1,6 @@
-import FetchQuoteFail from "./FetchQuoteFail";
+import FetchQuoteFailure from "./FetchQuoteFail";
 import FetchQuoteSuccess from "./FetchQuoteSuccess";
 
-type FetchQuoteResult = FetchQuoteSuccess | FetchQuoteFail;
+type FetchQuoteResult = FetchQuoteSuccess | FetchQuoteFailure;
 
 export default FetchQuoteResult;

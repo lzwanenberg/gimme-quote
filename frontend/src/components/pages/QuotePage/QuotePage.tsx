@@ -1,9 +1,9 @@
 import { useQuoteService } from "@/hooks/useQuoteService";
 import FetchQuoteResult from "@/services/QuoteService/types/FetchQuoteResult";
 import { useEffect, useState } from "react";
-import Quote from "./Quote";
-import LoadingIndicator from "./LoadingIndicator";
-import ErrorMessage from "./ErrorMessage";
+import Quote from "./Quote/Quote";
+import LoadingIndicator from "./LoadingIndicator/LoadingIndicator";
+import ErrorMessage from "./ErrorMessage/ErrorMessage";
 
 const QuotePage = () => {
     const quoteService = useQuoteService();

@@ -1,5 +1,5 @@
 import EnvironmentVariables from "@/config/EnvironmentVariables";
-import FetchQuoteFailure from "@/services/QuoteService/types/FetchQuoteFail";
+import FetchQuoteFailure from "@/services/QuoteService/types/FetchQuoteFailure";
 import FetchQuoteSuccess from "@/services/QuoteService/types/FetchQuoteSuccess";
 import QuoteResponse from "@/services/QuoteService/types/QuoteResponse";
 import QuoteServiceConfig from "@/services/QuoteService/types/QuoteServiceConfig";

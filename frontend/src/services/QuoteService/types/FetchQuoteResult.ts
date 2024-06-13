@@ -1,4 +1,4 @@
-import FetchQuoteFailure from "./FetchQuoteFail";
+import FetchQuoteFailure from "./FetchQuoteFailure";
 import FetchQuoteSuccess from "./FetchQuoteSuccess";
 
 type FetchQuoteResult = FetchQuoteSuccess | FetchQuoteFailure;

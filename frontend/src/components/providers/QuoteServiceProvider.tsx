@@ -1,4 +1,5 @@
-import QuoteService from '@/services/QuoteService/QuoteService';
+import createQuoteService from '@/services/QuoteService/createQuoteService';
+import QuoteService from '@/services/QuoteService/types/QuoteService';
 import QuoteServiceConfig from '@/services/QuoteService/types/QuoteServiceConfig';
 import React, { createContext } from 'react';
 
@@ -10,7 +11,7 @@ type Props = {
 };
 
 export const QuoteServiceProvider: React.FC<Props> = ({ config, children }) => {
-    const quoteService = new QuoteService(config);
+    const quoteService = createQuoteService(config);
 
     return (
         <QuoteServiceContext.Provider value={quoteService}>

@@ -1,6 +1,6 @@
-import QuoteService from '@/services/QuoteService/QuoteService';
 import { useContext } from 'react';
 import { QuoteServiceContext } from '../components/providers/QuoteServiceProvider';
+import QuoteService from '@/services/QuoteService/types/QuoteService';
 
 export const useQuoteService = (): QuoteService => {
     const quoteService = useContext(QuoteServiceContext);

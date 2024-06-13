@@ -50,7 +50,6 @@ describe("loadEnvironmentVariables", () => {
 
     describe("when validateEnvironmentVariables returns validation error", () => {
         it("returns data", () => {
-            const data = mock<EnvironmentVariables>(jest.fn());
             mockValidateEnvironmentVariables.mockReturnValue({
                 success: false,
                 error: "Something went wrong"

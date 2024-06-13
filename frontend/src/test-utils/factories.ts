@@ -1,3 +1,4 @@
+import EnvironmentVariables from "@/config/EnvironmentVariables";
 import FetchQuoteFailure from "@/services/QuoteService/types/FetchQuoteFail";
 import FetchQuoteSuccess from "@/services/QuoteService/types/FetchQuoteSuccess";
 import QuoteResponse from "@/services/QuoteService/types/QuoteResponse";
@@ -26,4 +27,9 @@ export const createFetchQuoteSuccess = createFactory<FetchQuoteSuccess>({
 export const createQuoteServiceConfig = createFactory<QuoteServiceConfig>({
     host: '127.0.0.1',
     port: 3030
+});
+
+export const createEnvironmentVariables = createFactory<EnvironmentVariables>({
+    QUOTE_SERVICE_HOST: '127.0.0.1',
+    QUOTE_SERVICE_PORT: 3030
 });

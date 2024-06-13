@@ -2,11 +2,8 @@ import React, { useContext } from 'react';
 import { render } from '@testing-library/react';
 import { QuoteServiceProvider, QuoteServiceContext } from './QuoteServiceProvider';
 import { createQuoteServiceConfig } from '@/test-utils/factories';
-import { instance, mock, when } from 'ts-mockito';
 import QuoteService from '@/services/QuoteService/types/QuoteService';
-import FetchQuoteResult from '@/services/QuoteService/types/FetchQuoteResult';
 import createQuoteService from '@/services/QuoteService/createQuoteService';
-import QuoteServiceConfig from '@/services/QuoteService/types/QuoteServiceConfig';
 
 
 jest.mock('@/services/QuoteService/createQuoteService');

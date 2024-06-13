@@ -1,17 +1,5 @@
 import EnvironmentVariablesSchema from "./EnvironmentVariablesSchema";
-import EnvironmentVariables from "./EnvironmentVariables";
-
-type ValidationSuccess = {
-    success: true;
-    data: EnvironmentVariables;
-}
-
-type ValidationFailed = {
-    success: false;
-    error: string;
-}
-
-type ValidationResult = ValidationSuccess | ValidationFailed;
+import ValidationResult from "./types/ValidationResult";
 
 const validateEnvironmentVariables = (env: any): ValidationResult => {
     const config = EnvironmentVariablesSchema.safeParse(env);

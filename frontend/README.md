@@ -1,24 +1,27 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+## Getting started
 
-First, run the development server:
+### Prerequisites
+- [Node.js](https://nodejs.org/) version 18 or later
+- Local copy of the [repository](https://github.com/lzwanenberg/gimme-quote)
 
-```bash
-npm run dev
-```
+### Installation
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+From the project root:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. `cd frontend` to navigate to the frontend directory
+2. `npm install` to install dependencies:
+3. `cp .env.example .env` to configure default environment variables
+4. `vi .env` to modify environment variables *(optional)*
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Commands
 
-## Learn More
+After [installation](#installation), the following commands are available from the `frontend` directory:
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+- `npm run dev` to run development server, which will run the application at [http://localhost:3000](http://localhost:3000)
+- `npm run test` to run tests
+- `npm run test:watch` to run tests in watch mode
+- `npm run lint` to run linter
+- `npm run lint --fix` to run linter and automatically fix errors
+- `npm run build` to create a production build

@@ -13,6 +13,10 @@ The system contains of two components:
   - Retrieves a random quote via the backend service
   - Shows quote to the user in a web UI
 
+Component diagram:
+
+![Component diagram](./documentation/component_diagram.svg)
+
 ## Installation
 
 **Option 1: use Docker Compose**

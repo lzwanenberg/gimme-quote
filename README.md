@@ -7,7 +7,11 @@ Gimme Quote is a service that provides the user with a quote that was sourced fr
 **Option 1: use Docker Compose**
 
 Use [Docker Compose](https://docs.docker.com/compose/) for a quick preview or simple deployments:
-- `docker compose up --build`:
+
+```console
+git clone git@github.com:lzwanenberg/gimme-quote.git
+docker compose up --build
+```
   - serves web UI on port 3000
   - serves quote API on port 8080
 

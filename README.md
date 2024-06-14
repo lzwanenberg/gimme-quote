@@ -17,13 +17,13 @@ The system contains of two components:
 
 **Option 1: use Docker Compose**
 
-Use [Docker Compose](https://docs.docker.com/compose/) (for a quick preview):
+Use [Docker Compose](https://docs.docker.com/compose/) for a quick preview or simple deployments:
 - `docker compose up --build`:
-  - serves web UI at [http://localhost:3000/](http://localhost:3000/).
-  - serves quote API at [http://localhost:8080/](http://localhost:8080/).
+  - serves web UI on port 3000
+  - serves quote API on port 8080
 
 **Option 2: run components individually**
 
-Run components individually (for active development):
+Run components individually for active development or advanced deployments:
 
 *See: [backend/README.md](./backend/README.md) and [frontend/README.md](./frontend/README.md)*

@@ -1,6 +1,6 @@
 # Gimme Quote [![CircleCI](https://dl.circleci.com/status-badge/img/gh/lzwanenberg/gimme-quote/tree/main.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/lzwanenberg/gimme-quote/tree/main)
 
-Gimme Quote is a service that provides the user with a quote that was sourced from a random external quote API.
+Gimme Quote is a web application that provides the user with a quote that was sourced from a random external quote API.
 
 ## Installation
 

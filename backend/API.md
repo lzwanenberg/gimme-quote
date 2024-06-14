@@ -1,13 +1,18 @@
 # Quote API
 
-## `GET /`
-**Response**
+### `GET /`
+
+#### Description
+
+Fetch a random quote
+
+#### Response
 
 JSON object representing a quote:
 - **author** (string) The name of the author of the quote.
 - **content** (string) The actual quote.
 
-**Example**
+#### Example
 
 `GET http://localhost:8080/`
 ```json

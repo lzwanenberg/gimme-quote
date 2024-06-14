@@ -1,19 +1,23 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Gimme Quote Frontend
 
-## Getting started
+## Introduction
 
-### Prerequisites
-- [Node.js](https://nodejs.org/) version 18 or later
-- Local copy of the [repository](https://github.com/lzwanenberg/gimme-quote)
+This frontend application makes requests to the [backend service](../backend) and displays the received quote to the user. It is a [Next.js](https://nextjs.org/) project bootstrapped with [create-next-app](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-### Installation
+## Installation
+
+*See also: [Run app using Docker](#run-app-using-docker)*
+
+Prerequisites:
+- [Node.js](https://nodejs.org/) version 18+ installed
+- [repository](..) cloned locally
+- [`backend service`](../backend) running
 
 From the project root:
-
-1. `cd frontend` to navigate to the frontend directory
+1. `cd frontend` to navigate into the frontend directory
 2. `npm install` to install dependencies:
 3. `cp .env.example .env` to configure default environment variables
-4. `vi .env` to modify environment variables *(optional)*
+4. `vi .env` (or another editor) to modify environment variables *(optional)*
 
 ## Commands
 
@@ -25,3 +29,16 @@ After [installation](#installation), the following commands are available from t
 - `npm run lint` to run linter
 - `npm run lint --fix` to run linter and automatically fix errors
 - `npm run build` to create a production build
+
+## Run app using Docker
+
+Prerequisites:
+- [Docker](https://www.docker.com/) installed and running
+- Logged into [Docker Hub](https://hub.docker.com/)
+
+From the project root:
+1. `cd frontend` to navigate into the frontend directory
+2. `docker build -t frontend .` to build image
+3. `docker run -p 3000:3000 frontend` to run the container
+
+The application is now accessible through [http://localhost:3000](http://localhost:3000).

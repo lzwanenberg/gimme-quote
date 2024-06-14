@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This backend application serves quotes by fetching a quote from a random [external quote API](backend/src/main/java/com/zwanenberg/gimmequote/quote_sources/implementations) and mapping it to a uniform quote response.
+This backend application serves quotes by fetching a quote from a random [external quote API](./src/main/java/com/zwanenberg/gimmequote/quote_sources/implementations) and mapping it to a uniform quote response.
 
 ## Installation
 

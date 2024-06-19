@@ -2,12 +2,10 @@ package com.zwanenberg.gimmequote.controllers;
 
 import com.zwanenberg.gimmequote.models.Quote;
 import com.zwanenberg.gimmequote.quote_aggregator.QuoteAggregatorResult;
-import com.zwanenberg.gimmequote.quote_aggregator.QuoteAggregatorService;
+import com.zwanenberg.gimmequote.quote_aggregator.QuoteSingleAggregatorService;
 import com.zwanenberg.gimmequote.quote_sources.FetchQuoteResult;
-import com.zwanenberg.gimmequote.quote_sources.QuoteSource;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -17,8 +15,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.ResultActions;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -33,7 +29,7 @@ public class QuoteControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private QuoteAggregatorService quoteAggregatorService;
+    private QuoteSingleAggregatorService quoteSingleAggregatorService;
 
     @Test
     public void testIndexSuccessfulContainsQuote() throws Exception {
@@ -41,7 +37,7 @@ public class QuoteControllerTest {
         FetchQuoteResult fetchQuoteResult = FetchQuoteResult.createSuccess(quote);
         QuoteAggregatorResult result = new QuoteAggregatorResult("some-api.example", fetchQuoteResult);
 
-        when(quoteAggregatorService.getQuote()).thenReturn(result);
+        when(quoteSingleAggregatorService.getQuote()).thenReturn(result);
 
         mockMvc.perform(get("/").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -59,7 +55,7 @@ public class QuoteControllerTest {
 
         FetchQuoteResult fetchQuoteResult = FetchQuoteResult.createError(response, exception);
         QuoteAggregatorResult result = new QuoteAggregatorResult("some-api.example", fetchQuoteResult);
-        when(quoteAggregatorService.getQuote()).thenReturn(result);
+        when(quoteSingleAggregatorService.getQuote()).thenReturn(result);
 
         mockMvc.perform(get("/").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isInternalServerError())

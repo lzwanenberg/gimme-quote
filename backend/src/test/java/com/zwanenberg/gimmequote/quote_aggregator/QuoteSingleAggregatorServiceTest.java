@@ -11,7 +11,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(MockitoExtension.class)
-public class QuoteAggregatorServiceTest {
+public class QuoteSingleAggregatorServiceTest {
     @Mock
     private QuoteSource randomSource;
 
@@ -23,28 +23,28 @@ public class QuoteAggregatorServiceTest {
 
     @Test
     public void testGetQuoteReturnsSourceName() {
-        QuoteAggregatorService quoteAggregatorService =
-                new QuoteAggregatorService(randomQuoteSourceProvider);
+        QuoteSingleAggregatorService quoteSingleAggregatorService =
+                new QuoteSingleAggregatorService(randomQuoteSourceProvider);
 
         Mockito.when(randomQuoteSourceProvider.get()).thenReturn(randomSource);
         Mockito.when(randomSource.getName()).thenReturn("some-random-source.example");
         Mockito.when(randomSource.fetchQuote()).thenReturn(fetchQuoteResult);
 
-        QuoteAggregatorResult aggregatorResult = quoteAggregatorService.getQuote();
+        QuoteAggregatorResult aggregatorResult = quoteSingleAggregatorService.getQuote();
 
         assertEquals("some-random-source.example", aggregatorResult.getSourceName());
     }
 
     @Test
     public void testGetQuoteReturnsFetchQuoteResult() {
-        QuoteAggregatorService quoteAggregatorService =
-                new QuoteAggregatorService(randomQuoteSourceProvider);
+        QuoteSingleAggregatorService quoteSingleAggregatorService =
+                new QuoteSingleAggregatorService(randomQuoteSourceProvider);
 
         Mockito.when(randomQuoteSourceProvider.get()).thenReturn(randomSource);
         Mockito.when(randomSource.getName()).thenReturn("some-random-source.example");
         Mockito.when(randomSource.fetchQuote()).thenReturn(fetchQuoteResult);
 
-        QuoteAggregatorResult aggregatorResult = quoteAggregatorService.getQuote();
+        QuoteAggregatorResult aggregatorResult = quoteSingleAggregatorService.getQuote();
 
         assertEquals(fetchQuoteResult, aggregatorResult.getResult());
     }

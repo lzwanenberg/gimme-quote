@@ -9,12 +9,12 @@ import org.springframework.stereotype.Service;
  * Service that aggregates all configured quote sources by fetching a quote from a random source
  */
 @Service
-public class QuoteAggregatorService {
+public class QuoteSingleAggregatorService {
 
     private final RandomQuoteSourceProvider randomQuoteSourceProvider;
 
     @Autowired
-    public QuoteAggregatorService(RandomQuoteSourceProvider randomQuoteSourceProvider) {
+    public QuoteSingleAggregatorService(RandomQuoteSourceProvider randomQuoteSourceProvider) {
         this.randomQuoteSourceProvider = randomQuoteSourceProvider;
     }
 

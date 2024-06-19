@@ -1,4 +1,4 @@
-package com.zwanenberg.gimmequote.quote_aggregator;
+package com.zwanenberg.gimmequote.quote_aggrSingleegator;
 
 import com.zwanenberg.gimmequote.quote_sources.QuoteSource;
 import com.zwanenberg.gimmequote.quote_sources.QuoteSourcesProvider;
